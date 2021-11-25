@@ -13,10 +13,8 @@ const proyectoSchema = new Schema({
     required: true,    
   },
 
-  objetivosEspecificos: {
-    type: String,
-    required: true,
-  },
+  objetivosEspecificos:
+    [String],
 
   presupuesto: {
     type: Float32Array,
@@ -24,8 +22,8 @@ const proyectoSchema = new Schema({
   },
 
   lider:{
-    type: String,
-    required: true,  
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Usuarios',  
   },
 
   fechaInicio:{
@@ -37,7 +35,6 @@ const proyectoSchema = new Schema({
     type: Date,
     required: true,  
   },
-
 
   estado: {
     type: String,
@@ -52,7 +49,6 @@ const proyectoSchema = new Schema({
     default: "INICIADO"
   },
 
-  
 });
 
 const modeloProyectos = model('Proyecto', proyectoSchema,'proyectos');
