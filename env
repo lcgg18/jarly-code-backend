@@ -1,0 +1,2 @@
+DB_CONNECT=mongodb+srv://admin:EquipoJARLY@cluster0.ihtlf.mongodb.net/gestion-proyecto?retryWrites=true&w=majority
+PORT=4000
