@@ -8,22 +8,28 @@ const proyectoSchema = new Schema({
     unique: true,    
   },
 
-  objetivoGeneral: {
-    type: String,
-    required: true,    
-  },
-
-  objetivosEspecificos:
-    [String],
+  objetivos: [
+    {
+      descripcion: {
+        type: String,
+        required: true,
+      },
+      tipo:{
+        type: String,
+        enum: ["GENERAL", "ESPECIFICO"],
+        required: true,
+      },
+    }.
+  ],  
 
   presupuesto: {
-    type: Float32Array,
+    type: Number,
     required: true,
   },
 
   lider:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Usuarios',  
+    type: Schema.Types.ObjectId,
+    ref: 'usuarios',  
   },
 
   fechaInicio:{
@@ -39,14 +45,14 @@ const proyectoSchema = new Schema({
   estado: {
     type: String,
     enum: ["ACTIVO", "INACTIVO"],
-    default: "ACTIVO"
+    default: "INACTIVO"
   },
 
   fase: {
     type: String,
     required: true,
     enum: ["INICIADO", "EN DESARROLLO", "TERMINADO"],
-    default: "INICIADO"
+    default: "NULO"
   },
 
 });
