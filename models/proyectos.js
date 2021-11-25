@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose');
+const { modeloUsuario }= require('./usuarios');
 
 const proyectoSchema = new Schema({
 
@@ -19,7 +20,7 @@ const proyectoSchema = new Schema({
         enum: ["GENERAL", "ESPECIFICO"],
         required: true,
       },
-    }.
+    }
   ],  
 
   presupuesto: {
@@ -29,7 +30,8 @@ const proyectoSchema = new Schema({
 
   lider:{
     type: Schema.Types.ObjectId,
-    ref: 'usuarios',  
+    required: true,
+    ref: modeloUsuario,  
   },
 
   fechaInicio:{
