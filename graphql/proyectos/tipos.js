@@ -2,7 +2,15 @@ const { gql } = require ('apollo-server-express');
 
 const tiposProyectos = gql`
 
+  scalar Date
+
   type objetivo{
+    _id: ID!
+    descripcion: String!
+    tipo: Enum_TipoObjetivo!
+  }
+  
+  input crearObjetivo{
     descripcion: String!
     tipo: Enum_TipoObjetivo!
   }
@@ -30,14 +38,14 @@ const tiposProyectos = gql`
    
     crearProyecto(
       nombre: String!
-      objetivos: [objetivo]
+      objetivos: [crearObjetivo]
       presupuesto: Int
       lider: Usuario!
       fechainicio: Date!
       fechaFin: Date!
       estado: Enum_EstadoProyecto!
       fase: Enum_FaseProyecto!
-    ): Usuario
+    ): Proyecto
     
     editarProyecto(
       _id: String!
@@ -49,7 +57,7 @@ const tiposProyectos = gql`
       fechaFin: Date!
       estado: Enum_EstadoProyecto!
       fase: Enum_FaseProyecto!
-    ): Usuario
+    ): Proyecto
     
     eliminarProyecto(_id: String): Proyecto
   }
