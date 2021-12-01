@@ -1,5 +1,4 @@
 const { modeloAvance } = require("../../models/avances");
-const bcrypt = require ('bcrypt') ;
 
 const resolversAvance = {
   Query: {
@@ -10,23 +9,17 @@ const resolversAvance = {
     Avance: async (parent, args) => {
       const avance = await modeloAvance.findOne({ _id: args._id });
       return avance;
-    },
-    Lideres: async (parent, args) => {
-      const lideres = await modeloAvance.find({ creadoPor: args.creadoPor });
-      return lideres;
-    },
+    }    
   },
+  
   Mutation: {
-    crearAvance: async (parent, args) => {
-      const salt = await bcrypt.genSalt(12);
-      const hashedPassword = await bcrypt.hash(args.password, salt);
+    crearAvance: async (parent, args) => {      
       const AvanceCreado = await modeloAvance.create({
         fecha: args.fecha ,  
         descripcion: args.descripcion,
         observaciones: args.observaciones,
         proyecto: args.proyecto,
-        creadoPor: args.creadoPor,
-        password: hashedPassword
+        creadoPor: args.creadoPor        
       });     
 
       return AvanceCreado;
@@ -36,7 +29,7 @@ const resolversAvance = {
       const avanceEditado = await modeloAvance.findByIdAndUpdate(
         args._id,
         {
-            fecha: args.fecha ,  
+            fecha: args.fecha,  
             descripcion: args.descripcion,
             observaciones: args.observaciones,
             proyecto: args.proyecto,

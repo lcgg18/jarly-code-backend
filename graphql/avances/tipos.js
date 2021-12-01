@@ -8,36 +8,35 @@ scalar Date
     _id: ID!
     fecha: Date!    
     descripcion: String!
-    observaciones: [Observaciones]
+    observaciones: [String]
     proyecto: String!
-    creadopor: Usuario!    
+    creadoPor: Usuario!    
   }
 
   type Query {
     Avances: [Avance]
-    Avance(_id: String!): Avance
-    Lideres(creadoPor: String!): [Avance]
+    Avance(_id: String!): Avance    
   }
 
   type Mutation {
     crearAvance(
         fecha: Date!    
         descripcion: String!
-        observaciones: [Observaciones]
+        observaciones: [String]
         proyecto: String!
-        creadopor: Usuario!
+        creadoPor: Usuario!
     ): Avance
 
     editarAvance(
         _id: String!
-        fecha: Date!    
-        descripcion: String!
-        observaciones: [Observaciones]
+        fecha: Date    
+        descripcion: String
+        observaciones: [String]
         proyecto: String!
-        creadopor: Usuario!
+        creadoPor: Usuario!
     ): Avance
 
-    eliminarAvance(_id: String, descripcion: String): Avance
+    eliminarAvance(_id: String): Avance
   }
 `;
 
