@@ -1,5 +1,4 @@
 const { modeloProyecto } = require("../../models/proyectos");
-const bcrypt = require ('bcrypt') ;
 
 const resolversProyecto = {
   Query: {
@@ -12,22 +11,10 @@ const resolversProyecto = {
       const proyecto = await modeloProyecto.findOne({ _id: args._id });
       return proyecto;
     },
-    
-    EstadoProyecto: async (parent, args) => {
-      const estados = await modeloProyecto.find({ estado: args.estado });
-      return estados;
-    },
-    
-    FaseProyecto: async (parent, args) => {
-      const fases = await modeloProyecto.find({ fase: args.fase });
-      return fases;
-    },
   },
   
   Mutation: {
     crearProyecto: async (parent, args) => {
-      const salt = await bcrypt.genSalt(12);
-      const hashedPassword = await bcrypt.hash(args.password, salt);
       
       const proyectoCreado = await modeloProyecto.create({
         nombre: args.nombre,
