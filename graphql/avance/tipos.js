@@ -2,7 +2,6 @@ const { gql } = require ('apollo-server-express');
 
 const tiposAvance = gql`
 
-scalar Date
 
   type Avance {
     _id: ID!
@@ -24,7 +23,7 @@ scalar Date
         descripcion: String!
         observaciones: [String]
         proyecto: String!
-        creadoPor: Usuario!
+        creadoPor: String!
     ): Avance
 
     editarAvance(
@@ -32,8 +31,8 @@ scalar Date
         fecha: Date    
         descripcion: String
         observaciones: [String]
-        proyecto: String!
-        creadoPor: Usuario!
+        proyecto: String
+        creadoPor: String
     ): Avance
 
     eliminarAvance(_id: String): Avance
