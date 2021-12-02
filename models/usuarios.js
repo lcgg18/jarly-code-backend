@@ -1,5 +1,4 @@
-const {Schema, model} = require('mongoose');
-
+const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema({
   correo: {
@@ -10,7 +9,7 @@ const userSchema = new Schema({
       validator: (email) => {
         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
       },
-      message: 'El formato del correo electrónico no es correcto.',
+      message: "El formato del correo electrónico no es correcto.",
     },
   },
   identificacion: {
@@ -34,10 +33,10 @@ const userSchema = new Schema({
   estado: {
     type: String,
     enum: ["PENDIENTE", "AUTORIZADO", "NO_AUTORIZADO"],
-    default: "PENDIENTE"
+    default: "PENDIENTE",
   },
 });
 
-const modeloUsuario = model('User', userSchema,'usuarios');
+const modeloUsuario = model("User", userSchema, "usuarios");
 
 module.exports = { modeloUsuario };

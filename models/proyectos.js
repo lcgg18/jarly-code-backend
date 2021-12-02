@@ -1,12 +1,11 @@
-const {Schema, model} = require('mongoose');
-const { modeloUsuario }= require('./usuarios');
+const { Schema, model } = require("mongoose");
+const { modeloUsuario } = require("./usuarios");
 
 const proyectoSchema = new Schema({
-
   nombre: {
     type: String,
     required: true,
-    unique: true,    
+    unique: true,
   },
 
   objetivos: [
@@ -15,50 +14,49 @@ const proyectoSchema = new Schema({
         type: String,
         required: true,
       },
-      tipo:{
+      tipo: {
         type: String,
         enum: ["GENERAL", "ESPECIFICO"],
         required: true,
       },
-    }
-  ],  
+    },
+  ],
 
   presupuesto: {
     type: Number,
     required: true,
   },
 
-  lider:{
+  lider: {
     type: Schema.Types.ObjectId,
     required: true,
-    ref: modeloUsuario,  
+    ref: modeloUsuario,
   },
 
-  fechaInicio:{
+  fechaInicio: {
     type: Date,
-    required: true,  
+    required: true,
   },
 
-  fechaFin:{
+  fechaFin: {
     type: Date,
-    required: true,  
+    required: true,
   },
 
   estado: {
     type: String,
     enum: ["ACTIVO", "INACTIVO"],
-    default: "INACTIVO"
+    default: "INACTIVO",
   },
 
   fase: {
     type: String,
     required: true,
     enum: ["INICIADO", "EN DESARROLLO", "TERMINADO"],
-    default: "NULO"
+    default: "NULO",
   },
-
 });
 
-const modeloProyectos = model('Proyecto', proyectoSchema,'proyectos');
+const modeloProyecto = model("Proyecto", proyectoSchema, "proyectos");
 
-module.exports = { modeloProyectos };
+module.exports = { modeloProyecto };

@@ -1,6 +1,6 @@
 const { gql } = require ('apollo-server-express');
 
-const tipoInscripcion = gql`
+const tiposInscripcion = gql`
   type Inscripcion {
     _id: ID!
     estado: Enum_EstadoInscripcion
@@ -21,4 +21,4 @@ const tipoInscripcion = gql`
   }
 `;
 
-module.exports = { tipoInscripcion };
+module.exports = { tiposInscripcion };

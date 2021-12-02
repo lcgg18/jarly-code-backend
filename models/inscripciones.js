@@ -1,31 +1,37 @@
-const {Schema, model} = require('mongoose');
-
+const { Schema, model } = require("mongoose");
+const { modeloProyecto } = require("./proyectos");
+const { modeloUsuario } = require("./usuarios");
 
 const inscripcionSchema = new Schema({
   proyecto: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: modeloProyecto,
     required: true,
-    unique: true,
   },
   estudiante: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: modeloUsuario,
     required: true,
   },
   estado: {
     type: String,
     enum: ["ACEPTADA", "RECHAZADA", "PENDIENTE"],
-    default: "PENDIENTE"
+    default: "PENDIENTE",
   },
   fechaIngreso: {
     type: Date,
-    required: true,
+    required: false,
   },
   fechaEgreso: {
     type: Date,
-    required: true,
-  }
+    required: false,
+  },
 });
 
-const modeloInscripcion = model('Inscripcion', inscripcionSchema,'inscripciones');
+const modeloInscripcion = model(
+  "Inscripcion",
+  inscripcionSchema,
+  "inscripciones"
+);
 
 module.exports = { modeloInscripcion };
