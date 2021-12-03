@@ -8,7 +8,7 @@ const tiposAvance = gql`
     fecha: Date!    
     descripcion: String!
     observaciones: [String]
-    proyecto: String!
+    proyecto: Proyecto!
     creadoPor: Usuario!    
   }
 
