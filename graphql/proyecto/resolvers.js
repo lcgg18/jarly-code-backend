@@ -22,8 +22,6 @@ const resolversProyecto = {
         objetivos: args.objetivos,
         presupuesto: args.presupuesto,
         lider: args.lider,
-        fechaInicio: args.fechaInicio,
-        fechaFin: args.fechaFin,
         estado: args.estado,
         fase: args.fase,
       });
@@ -39,8 +37,6 @@ const resolversProyecto = {
           objetivos: args.objetivos,
           presupuesto: args.presupuesto,
           lider: args.lider,
-          fechaInicio: args.fechaInicio,
-          fechaFin: args.fechaFin,
           estado: args.estado,
           fase: args.fase,
         },
@@ -51,17 +47,20 @@ const resolversProyecto = {
     },
 
     actualizarEstadoProyecto: async (parent, args) => {
-      const estadoActualizado = await modeloProyecto.findByIdAndUpdate(
-        args._id,
-        (args.estado = "ACTIVO"),
-        {
-          fechaInicio: Date.now(),
-          fase: "INICIADO",
-        },
-        { new: true }
-      );
+      if (args.estado === "ACTIVO") {
+        const estadoActualizado = await modeloProyecto.findByIdAndUpdate(
+          args._id,
+          {      
+            fechaInicio:Date.now(),
+            estado: args.estado,
+            fase: "INICIADO",
+          },
+          { new: true }
+        );
+  
+        return estadoActualizado;
+      }
 
-      return estadoActualizado;
     },
 
     eliminarProyecto: async (parent, args) => {
