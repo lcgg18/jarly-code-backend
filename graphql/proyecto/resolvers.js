@@ -50,18 +50,35 @@ const resolversProyecto = {
       if (args.estado === "ACTIVO") {
         const estadoActualizado = await modeloProyecto.findByIdAndUpdate(
           args._id,
-          {      
-            fechaInicio:Date.now(),
+          {
+            fechaInicio: Date.now(),
             estado: args.estado,
             fase: "INICIADO",
           },
           { new: true }
         );
-  
         return estadoActualizado;
-      }
 
+      }
     },
+
+    finalizarProyecto: async (parent, args) => {
+      if (args.fase === "TERMINADO") {
+        const proyectoFinalizado = await modeloProyecto.findByIdAndUpdate(
+          args._id,
+          {
+            fechaFin: Date.now(),
+            estado: "INACTIVO",
+            fase: args.fase,
+          },
+          { new: true }
+        );
+        return proyectoFinalizado;
+
+      }
+    },
+
+
 
     eliminarProyecto: async (parent, args) => {
       const proyectoEliminado = await modeloProyecto.findOneAndDelete({
