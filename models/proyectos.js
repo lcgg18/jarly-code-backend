@@ -55,6 +55,23 @@ const proyectoSchema = new Schema({
     enum: ["INICIADO", "EN DESARROLLO", "TERMINADO"],
     default: "NULO",
   },
+},
+{
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+}
+);
+
+proyectoSchema.virtual('avances', {
+  ref: 'Avance',
+  localField: '_id',
+  foreignField: 'proyecto',
+});
+
+proyectoSchema.virtual('inscripciones', {
+  ref: 'Inscripcion',
+  localField: '_id',
+  foreignField: 'proyecto',
 });
 
 const modeloProyecto = model("Proyecto", proyectoSchema, "proyectos");

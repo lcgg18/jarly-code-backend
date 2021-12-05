@@ -23,6 +23,8 @@ const tiposProyecto = gql`
     fechaFin: Date!
     estado: Enum_EstadoProyecto!
     fase: Enum_FaseProyecto!
+    avances: [Avance]
+    inscripciones: [Inscripcion]
   }
 
   type Query {

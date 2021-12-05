@@ -3,14 +3,14 @@ const { modeloProyecto } = require("../../models/proyectos");
 const resolversProyecto = {
   Query: {
     Proyectos: async (parent, args) => {
-      const proyectos = await modeloProyecto.find().populate("lider");
+      const proyectos = await modeloProyecto.find().populate("lider").populate('avances').populate('inscripciones');
       return proyectos;
     },
 
     Proyecto: async (parent, args) => {
       const proyecto = await modeloProyecto
         .findOne({ _id: args._id })
-        .populate("lider");
+        .populate("lider").populate('avances').populate('inscripciones');
       return proyecto;
     },
   },

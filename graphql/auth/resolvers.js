@@ -35,22 +35,23 @@ const resolversAutenticacion = {
     },
 
     login: async (parent, args) => {
-      const usuarioEcontrado = await modeloUsuario.findOne({ correo: args.correo });
-      if (await bcrypt.compare(args.password, usuarioEcontrado.password)) {
+      
+      const usuarioEncontrado = await modeloUsuario.findOne({ correo: args.correo });
+      if (await bcrypt.compare(args.password, usuarioEncontrado.password)) {
         return {
           token: generateToken({
-            _id: usuarioEcontrado._id,
-            nombre: usuarioEcontrado.nombre,
-            apellido: usuarioEcontrado.apellido,
-            identificacion: usuarioEcontrado.identificacion,
-            correo: usuarioEcontrado.correo,
-            rol: usuarioEcontrado.rol,
-            estado: usuarioEcontrado.estado,
+            _id: usuarioEncontrado._id,
+            nombre: usuarioEncontrado.nombre,
+            apellido: usuarioEncontrado.apellido,
+            identificacion: usuarioEncontrado.identificacion,
+            correo: usuarioEncontrado.correo,
+            rol: usuarioEncontrado.rol,
+            estado: usuarioEncontrado.estado,
           }),
         };
       } else {
         return {
-          error: 'not auth',
+          error: 'no autorizado',
         };
       }
     },
@@ -73,8 +74,6 @@ const resolversAutenticacion = {
           }),
         };
       }
-      // valdiar que el contexto tenga info del usuario. si si, refrescar el token
-      // si no devolver null para que en el front redirija al login.
     },
   },
 };
