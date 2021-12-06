@@ -3,24 +3,26 @@ const { modeloAvance } = require("../../models/avances");
 const resolversAvance = {
   Query: {
     Avances: async (parent, args) => {
-      const avances = await modeloAvance.find();
+      const avances = await modeloAvance.find()
+        .populate("proyecto").populate("creadoPor");
+
       return avances;
     },
     Avance: async (parent, args) => {
-      const avance = await modeloAvance.findOne({ _id: args._id });
+      const avance = await modeloAvance.findOne({ _id: args._id }).populate("creadoPor").populate("proyecto");
       return avance;
-    }    
+    }
   },
-  
+
   Mutation: {
-    crearAvance: async (parent, args) => {      
+    crearAvance: async (parent, args) => {
       const AvanceCreado = await modeloAvance.create({
-        fecha: args.fecha ,  
+        fecha: Date.now(),
         descripcion: args.descripcion,
         observaciones: args.observaciones,
         proyecto: args.proyecto,
-        creadoPor: args.creadoPor        
-      });     
+        creadoPor: args.creadoPor
+      });
 
       return AvanceCreado;
     },
@@ -29,11 +31,11 @@ const resolversAvance = {
       const avanceEditado = await modeloAvance.findByIdAndUpdate(
         args._id,
         {
-            fecha: args.fecha,  
-            descripcion: args.descripcion,
-            observaciones: args.observaciones,
-            proyecto: args.proyecto,
-            creadoPor: args.creadoPor
+          fecha: args.fecha,
+          descripcion: args.descripcion,
+          observaciones: args.observaciones,
+          proyecto: args.proyecto,
+          creadoPor: args.creadoPor
         },
         { new: true }
       );
