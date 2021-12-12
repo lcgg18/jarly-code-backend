@@ -1,56 +1,58 @@
-const { gql } = require ('apollo-server-express');
+const { gql } = require('apollo-server-express');
 
 const tiposProyecto = gql`
-
-  type Objetivo{
+  type Objetivo {
     _id: ID!
     descripcion: String!
     tipo: Enum_TipoObjetivo!
   }
-  
-  input crearObjetivo{
+
+  input crearObjetivo {
     descripcion: String!
     tipo: Enum_TipoObjetivo!
   }
 
-  type Proyecto{
+  type Proyecto {
     _id: ID!
     nombre: String!
-    objetivos: [Objetivo]
     presupuesto: Float!
+    fechaInicio: Date
+    fechaFin: Date
+    estado: Enum_EstadoProyecto
+    fase: Enum_FaseProyecto
     lider: Usuario!
-    fechaInicio: Date!
-    fechaFin: Date!
-    estado: Enum_EstadoProyecto!
-    fase: Enum_FaseProyecto!
+    objetivos: [Objetivo]
     avances: [Avance]
     inscripciones: [Inscripcion]
   }
+
+
 
   type Query {
     Proyectos: [Proyecto]
     Proyecto(_id: String!): Proyecto
   }
-  
-   type Mutation {
-   
+
+  type Mutation {
     crearProyecto(
       nombre: String!
-      objetivos: [crearObjetivo]
       presupuesto: Float!
-      lider: String!
+      fechaInicio: Date
+      fechaFin: Date
       estado: Enum_EstadoProyecto
-      fase: Enum_FaseProyecto!
+      fase: Enum_FaseProyecto
+      lider: String!
+      objetivos: [crearObjetivo]
     ): Proyecto
-    
+
     editarProyecto(
       _id: String!
       nombre: String
-      objetivos: [crearObjetivo]
       presupuesto: Float
-      lider: String
       estado: Enum_EstadoProyecto
       fase: Enum_FaseProyecto
+      lider: String
+      objetivos: [crearObjetivo] 
     ): Proyecto
 
     actualizarEstadoProyecto(
@@ -67,7 +69,6 @@ const tiposProyecto = gql`
     
     eliminarProyecto(_id: String): Proyecto
   }
-
 `;
 
 module.exports = { tiposProyecto };
