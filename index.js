@@ -23,7 +23,7 @@ const server = new ApolloServer({
   typeDefs: tipos,
   resolvers: resolvers,
   context: ({ req }) => {
-   
+
     const token = req.headers.authorization ?? null;
 
     if (token) {

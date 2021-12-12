@@ -5,26 +5,54 @@ const resolverInscripciones = {
 
 
     Query: {
-      Inscripciones: async (parent, args) => {
-        const inscripciones = await modeloInscripcion.find().populate("estudiante").populate("proyecto");
-        return inscripciones;
+      Inscripciones: async (parent, args, context) => {
+        if(context.userData){
+        
+          const inscripciones = await modeloInscripcion.find().populate("estudiante").populate("proyecto");
+          return inscripciones;
+        }else{
+          return null; 
+        }
+
+      },
+      InscripcionesFiltradas: async (parent, args, context) => {
+
+        if(context.userData){
+          const inscripciones = await modeloInscripcion.find({ ...args.filtro }).populate("estudiante").populate("proyecto");
+          return inscripciones;
+        
+        }else{
+          return null; 
+        }
       },
     },
     Mutation: {
-      crearInscripcion: async (parent, args) => {
-        const inscripcionCreada = await modeloInscripcion.create({
-          estado: args.estado,
-          proyecto: args.proyecto,
-          estudiante: args.estudiante,
-        });
-        return inscripcionCreada;
+      crearInscripcion: async (parent, args, context) => {
+
+        if(context.userData){
+        
+          const inscripcionCreada = await modeloInscripcion.create({
+            estado: args.estado,
+            proyecto: args.proyecto,
+            estudiante: args.estudiante,
+          });
+          return inscripcionCreada;
+        }else{
+          return null; 
+        }
       },
-      modificarInscripcion: async (parent, args) => {
-        const inscripcionAprobada = await modeloInscripcion.findByIdAndUpdate(args.id, {
-          estado: args.estado,
-          fechaIngreso: Date.now(),
-        },{new:true});
-        return inscripcionAprobada;
+      aprobarInscripcion: async (parent, args, context) => {
+
+        if(context.userData){
+        
+          const inscripcionAprobada = await modeloInscripcion.findByIdAndUpdate(args.id, {
+            estado: 'ACEPTADO',
+            fechaIngreso: Date.now(),
+          },{new:true});
+          return inscripcionAprobada;
+        }else{
+          return null; 
+        }
       },
     },
   };

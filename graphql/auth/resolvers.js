@@ -35,7 +35,6 @@ const resolversAutenticacion = {
     },
 
     login: async (parent, args) => {
-      
       const usuarioEncontrado = await modeloUsuario.findOne({ correo: args.correo });
       if (await bcrypt.compare(args.password, usuarioEncontrado.password)) {
         return {
@@ -51,10 +50,30 @@ const resolversAutenticacion = {
         };
       } else {
         return {
-          error: 'no autorizado',
+          error: 'not auth',
         };
       }
+   },
+
+   editarPerfil: async (parent, args) => {
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(args.password, salt);
+    const usuarioEditado = await modeloUsuario.findByIdAndUpdate(
+      args._id,
+      {
+      nombre: args.nombre,
+      apellido: args.apellido,
+      identificacion: args.identificacion,
+      correo: args.correo,
+      rol: args.rol,
+      password: hashedPassword,
     },
+    { new: true }
+    );
+    return usuarioEditado._id;
+  },
+
+  
 
     refreshToken: async (parent, args, context) => {
       if (!context.userData) {
@@ -74,6 +93,8 @@ const resolversAutenticacion = {
           }),
         };
       }
+      // valdiar que el contexto tenga info del usuario. si si, refrescar el token
+      // si no devolver null para que en el front redirija al login.
     },
   },
 };

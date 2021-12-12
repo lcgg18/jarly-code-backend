@@ -1,9 +1,13 @@
 {
-  "name": "jarly-code-back",
+  "name": "my-back",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  
+  "engines": {
+    "node": "16.x",
+    "npm": "7.24.1",
+    "yarn": "1.22.17"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
