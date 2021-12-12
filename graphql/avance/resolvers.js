@@ -1,53 +1,60 @@
-const { modeloAvance } = require("../../models/avances");
+const { modeloAvance } = require ('../../models/avances');
 
 const resolversAvance = {
   Query: {
-    Avances: async (parent, args) => {
-      const avances = await modeloAvance.find()
-        .populate("proyecto").populate("creadoPor");
+    Avances: async (parent, args, context) => {
 
-      return avances;
+      if(context.userData){
+        
+        const avances = await modeloAvance.find().populate('proyecto').populate('creadoPor');
+        return avances;
+      }else{
+        return null; 
+      }
     },
-    Avance: async (parent, args) => {
-      const avance = await modeloAvance.findOne({ _id: args._id }).populate("creadoPor").populate("proyecto");
-      return avance;
-    }
+    filtrarAvance: async (parents, args, context) => {
+
+      if(context.userData){
+        const avanceFiltrado = await modeloAvance.find({...args.filtro}).populate('creadoPor').populate('proyecto');
+        return avanceFiltrado;
+        
+      }else{
+        return null; 
+      }
+    },
+    
   },
-
   Mutation: {
-    crearAvance: async (parent, args) => {
-      const AvanceCreado = await modeloAvance.create({
-        fecha: Date.now(),
-        descripcion: args.descripcion,
-        observaciones: args.observaciones,
-        proyecto: args.proyecto,
-        creadoPor: args.creadoPor
-      });
+    crearAvance: async (parents, args, context) => {
 
-      return AvanceCreado;
-    },
-
-    editarAvance: async (parent, args) => {
-      const avanceEditado = await modeloAvance.findByIdAndUpdate(
-        args._id,
-        {
-          fecha: args.fecha,
+      if(context.userData){
+        
+        const avanceCreado = modeloAvance.create({
+          fecha: Date.now(),
           descripcion: args.descripcion,
-          observaciones: args.observaciones,
           proyecto: args.proyecto,
-          creadoPor: args.creadoPor
-        },
-        { new: true }
-      );
+          creadoPor: args.creadoPor,
+        });
+        return avanceCreado;
+      }else{
+        return null; 
+      }
+    },
 
-      return avanceEditado;
-    },
-    eliminarAvance: async (parent, args) => {
-      const avanceEliminado = await modeloAvance.findOneAndDelete({
-        _id: args._id,
-      });
-      return avanceEliminado;
-    },
+    editarAvance: async (parent, args, context) => {
+      if(context.userData){
+        
+        const editarAvance = modeloAvance.findByIdAndUpdate(args.id,
+          {
+            descripcion: args.descripcion,
+          },
+          { new: true }
+          )
+          return editarAvance;
+      }else{
+        return null; 
+      }
+    }
   },
 };
 
