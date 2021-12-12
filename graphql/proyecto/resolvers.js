@@ -1,90 +1,132 @@
-const { modeloProyecto } = require("../../models/proyectos");
+const { modeloProyecto } = require('../../models/proyecto');
 
 const resolversProyecto = {
   Query: {
-    Proyectos: async (parent, args) => {
-      const proyectos = await modeloProyecto.find().populate("lider").populate('avances').populate('inscripciones');
-      return proyectos;
+    Proyectos: async (parent, args, context) => {
+      if(context.userData){
+        const proyectos = await modeloProyecto.find().populate('lider').populate('avances').populate('inscripciones');
+       return proyectos; 
+
+      }else{
+        return null; 
+      }
+      
     },
+    Proyecto: async (parent, args, context) => {
 
-    Proyecto: async (parent, args) => {
-      const proyecto = await modeloProyecto
-        .findOne({ _id: args._id })
-        .populate("lider").populate('avances').populate('inscripciones');
-      return proyecto;
-    },
-  },
-
-  Mutation: {
-    crearProyecto: async (parent, args) => {
-      const proyectoCreado = await modeloProyecto.create({
-        nombre: args.nombre,
-        objetivos: args.objetivos,
-        presupuesto: args.presupuesto,
-        lider: args.lider,
-        estado: args.estado,
-        fase: args.fase,
-      });
-
-      return proyectoCreado;
-    },
-
-    editarProyecto: async (parent, args) => {
-      const proyectoEditado = await modeloProyecto.findByIdAndUpdate(
-        args._id,
-        {
-          nombre: args.nombre,
-          objetivos: args.objetivos,
-          presupuesto: args.presupuesto,
-          lider: args.lider,
-          estado: args.estado,
-          fase: args.fase,
-        },
-        { new: true }
-      );
-
-      return proyectoEditado;
-    },
-
-    actualizarEstadoProyecto: async (parent, args) => {
-      if (args.estado === "ACTIVO") {
-        const estadoActualizado = await modeloProyecto.findByIdAndUpdate(
-          args._id,
-          {
-            fechaInicio: Date.now(),
-            estado: args.estado,
-            fase: "INICIADO",
-          },
-          { new: true }
-        );
-        return estadoActualizado;
-
+      if(context.userData){
+        const proyectos = await modeloProyecto.findOne({ _id: args._id }).populate('lider').populate('avances').populate('inscripciones');
+        return proyectos;
+        
+      }else{
+        return null; 
       }
     },
+  },
+  Mutation: {
+    crearProyecto: async (parent, args, context) => {
 
-    finalizarProyecto: async (parent, args) => {
-      if (args.fase === "TERMINADO") {
-        const proyectoFinalizado = await modeloProyecto.findByIdAndUpdate(
+      if(context.userData){
+
+        const proyectoCreado = await modeloProyecto.create({
+          nombre: args.nombre,
+          presupuesto: args.presupuesto,
+          lider: args.lider,
+          objetivos: args.objetivos,
+        });
+        return proyectoCreado;
+
+        
+      }else{
+        return null; 
+      }
+    },
+    editarProyecto: async (parent, args, context) => {
+
+      if(context.userData){
+
+        
+        const proyectoEditado = await modeloProyecto.findByIdAndUpdate(
           args._id,
           {
-            fechaFin: Date.now(),
-            estado: "INACTIVO",
+            nombre: args.nombre,
+            objetivos: args.objetivos,
+            presupuesto: args.presupuesto,
+            lider: args.lider,
+            estado: args.estado,
             fase: args.fase,
           },
           { new: true }
         );
-        return proyectoFinalizado;
-
+  
+        return proyectoEditado;
+        
+      }else{
+        return null; 
       }
     },
 
+    actualizarEstadoProyecto: async (parent, args, context) => {
 
+      if(context.userData){
 
-    eliminarProyecto: async (parent, args) => {
-      const proyectoEliminado = await modeloProyecto.findOneAndDelete({
-        _id: args._id,
-      });
-      return proyectoEliminado;
+        if (args.estado === "ACTIVO") {
+          const estadoActualizado = await modeloProyecto.findByIdAndUpdate(
+            args._id,
+            {
+              fechaInicio: Date.now(),
+              estado: args.estado,
+              fase: "INICIADO",
+            },
+            { new: true }
+          );
+          return estadoActualizado;
+          }
+        
+      }else{
+        return null; 
+      }
+
+      
+    },
+
+    finalizarProyecto: async (parent, args, context) => {
+     
+      if(context.userData){
+
+        
+        if (args.fase === "TERMINADO") {
+          const proyectoFinalizado = await modeloProyecto.findByIdAndUpdate(
+            args._id,
+            {
+              fechaFin: Date.now(),
+              estado: "INACTIVO",
+              fase: args.fase,
+            },
+            { new: true }
+          );
+          return proyectoFinalizado;
+  
+        }
+        
+      }else{
+        return null; 
+      }
+    },
+
+    eliminarProyecto: async (parent, args, context) => {
+
+      if(context.userData){
+
+        const proyectoEliminado = await modeloProyecto.findOneAndDelete({
+          _id: args._id,
+        });
+        return proyectoEliminado;
+        
+        
+      }else{
+        return null; 
+      }
     },
   },
 };
