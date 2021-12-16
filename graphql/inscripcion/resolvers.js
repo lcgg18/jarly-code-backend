@@ -54,6 +54,20 @@ const resolverInscripciones = {
           return null; 
         }
       },
+      rechazarInscripcion: async (parent, args) => {
+
+        if(context.userData){
+
+          const inscripcionRechazada = await modeloInscripcion.findByIdAndUpdate(args.id, {
+          estado: 'RECHAZADO'
+        },{new:true});
+        return inscripcionRechazada;
+        }else{
+          return null; 
+        }
+        
+      },
+
     },
   };
   

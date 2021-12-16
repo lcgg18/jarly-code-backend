@@ -7,7 +7,7 @@ const { modeloUsuario }= require('./usuarios');
 const avanceSchema = new Schema({
     fecha: {
       type: Date,
-      required: true,
+      required: false,
     },
     descripcion: {
       type: String,

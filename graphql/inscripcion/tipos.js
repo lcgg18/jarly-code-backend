@@ -27,6 +27,7 @@ type Mutation {
     estudiante: String!
   ): Inscripcion
   aprobarInscripcion(id: String!): Inscripcion
+  rechazarInscripcion(id: String!): Inscripcion
 }
 `;
 
