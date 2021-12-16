@@ -71,12 +71,12 @@ const resolversAvance = {
     },
 
     crearObservacion: async (parent, args, context)=> {
+
       const observacionesCreada = await modeloAvance.findByIdAndUpdate(
-        args.id,
+        args._id,
         {
-          $push: {
-            ["campos.informacion"]:
-             args.campos.informacion
+          $addToSet: {
+            observaciones: args.observacion,
           },
         },
         { new: true}
