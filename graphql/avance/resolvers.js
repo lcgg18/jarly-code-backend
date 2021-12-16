@@ -71,7 +71,7 @@ const resolversAvance = {
     },
 
     crearObservacion: async (parent, args, context)=> {
-
+      if (context.userData) {
       const observacionesCreada = await modeloAvance.findByIdAndUpdate(
         args._id,
         {
@@ -82,6 +82,9 @@ const resolversAvance = {
         { new: true}
         );
         return observacionesCreada
+      } else {
+        return null;
+      }
     }
   },
 };
