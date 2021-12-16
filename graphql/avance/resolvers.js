@@ -69,6 +69,23 @@ const resolversAvance = {
         return null;
       }
     },
+
+    crearObservacion: async (parent, args, context)=> {
+      if (context.userData) {
+      const observacionesCreada = await modeloAvance.findByIdAndUpdate(
+        args._id,
+        {
+          $addToSet: {
+            observaciones: args.observacion,
+          },
+        },
+        { new: true}
+        );
+        return observacionesCreada
+      } else {
+        return null;
+      }
+    }
   },
 };
 
