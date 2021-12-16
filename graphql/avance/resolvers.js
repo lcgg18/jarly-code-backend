@@ -69,6 +69,20 @@ const resolversAvance = {
         return null;
       }
     },
+
+    crearObservacion: async (parent, args, context)=> {
+      const observacionesCreada = await modeloAvance.findByIdAndUpdate(
+        args.id,
+        {
+          $push: {
+            ["campos.informacion"]:
+             args.campos.informacion
+          },
+        },
+        { new: true}
+        );
+        return observacionesCreada
+    }
   },
 };
 
