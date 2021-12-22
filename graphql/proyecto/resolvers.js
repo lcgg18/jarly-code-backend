@@ -72,7 +72,7 @@ const resolversProyecto = {
       }
     },
 
-    editarObjetivo: async (parent, args) => {
+    editarObjetivo: async (parent, args, context) => {
 
       if(context.userData){
 
