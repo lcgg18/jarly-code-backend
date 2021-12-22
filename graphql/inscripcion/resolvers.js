@@ -54,7 +54,7 @@ const resolverInscripciones = {
           return null; 
         }
       },
-      rechazarInscripcion: async (parent, args) => {
+      rechazarInscripcion: async (parent, args, context) => {
 
         if(context.userData){
 
